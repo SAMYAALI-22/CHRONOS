@@ -13,9 +13,6 @@ export async function fetchMetrics(): Promise<SystemMetrics> {
     },
   });
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch metrics');
-  }
 
   return await response.json();
 }
