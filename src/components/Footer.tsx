@@ -11,7 +11,7 @@ export default function Footer() {
 
         <div className="border-t border-slate-800 pt-8 mb-8">
           <h4 className="text-center text-amber-400 font-semibold mb-6">Founded By</h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+          <div className="flex justify-center max-w-3xl mx-auto">
             <div className="bg-slate-900 rounded-xl p-6 border border-slate-800 hover:border-amber-500 transition-all duration-300">
               <h5 className="text-xl font-bold text-white mb-2">Samya Ali</h5>
               <p className="text-slate-400 text-sm mb-4">Founder & Cloud Architect</p>
