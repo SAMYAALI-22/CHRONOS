@@ -22,7 +22,7 @@ export default function Footer() {
                 <a href="https://www.linkedin.com/in/samyaali22/" className="text-slate-400 hover:text-amber-400 transition-colors">
                   <Linkedin className="w-5 h-5" />
                 </a>
-                <a href="samyaali648@gmail.com" className="text-slate-400 hover:text-amber-400 transition-colors">
+                <a href="mailto:samyaali648@gmail.com" className="text-slate-400 hover:text-amber-400 transition-colors">
                   <Mail className="w-5 h-5" />
                 </a>
               </div>
@@ -31,7 +31,7 @@ export default function Footer() {
         </div>
 
         <div className="text-center text-slate-500 text-sm">
-          <p>&copy; 2024 CHRONOS. Predictive Cloud Intelligence Platform.</p>
+          <p>&copy; 2026 CHRONOS. Predictive Cloud Intelligence Platform.</p>
           <p className="mt-2">Transforming reactive monitoring into proactive stability</p>
         </div>
       </div>
