@@ -7,6 +7,16 @@ export interface SystemMetrics {
   timestamp: number;
 }
 
+export interface MetricDataPoint {
+  timestamp: number;
+  cpu: number;
+  memory: number;
+  traffic: number;
+  load: number;
+  failure_risk: number;
+  isSpike: boolean;
+}
+
 export interface GameState {
   player: {
     x: number;
