@@ -7,10 +7,13 @@ export async function fetchMetrics(): Promise<SystemMetrics> {
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     throw new Error('Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. Create a .env file with both values.');
   }
+
+  const apiUrl = `${SUPABASE_URL}/functions/v1/chronos-metrics?_t=${Date.now()}`;
   
   const apiUrl = `${SUPABASE_URL}/functions/v1/chronos-metrics`;
 
   const response = await fetch(apiUrl, {
+    cache: 'no-store',
     headers: {
       'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       'Content-Type': 'application/json',
