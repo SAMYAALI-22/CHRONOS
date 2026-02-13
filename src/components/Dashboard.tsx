@@ -47,7 +47,10 @@ export default function Dashboard({ metrics }: DashboardProps) {
                 <Cpu className="w-8 h-8 text-blue-400" />
                 <span className="text-3xl font-bold text-white">{metrics.cpu.toFixed(1)}%</span>
               </div>
-              <h3 className="text-slate-300 text-sm font-medium mb-2">CPU Usage</h3>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-slate-300 text-sm font-medium">CPU Usage</h3>
+                {metrics.cpu > 70 && <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>}
+              </div>
               <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-blue-600 to-blue-400 transition-all duration-500 ease-out"
@@ -61,7 +64,10 @@ export default function Dashboard({ metrics }: DashboardProps) {
                 <Database className="w-8 h-8 text-purple-400" />
                 <span className="text-3xl font-bold text-white">{metrics.memory.toFixed(1)}%</span>
               </div>
-              <h3 className="text-slate-300 text-sm font-medium mb-2">Memory Usage</h3>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-slate-300 text-sm font-medium">Memory Usage</h3>
+                {metrics.memory > 70 && <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>}
+              </div>
               <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-500 ease-out"
@@ -75,7 +81,10 @@ export default function Dashboard({ metrics }: DashboardProps) {
                 <AlertTriangle className="w-8 h-8 text-amber-400" />
                 <span className="text-3xl font-bold text-white">{metrics.failure_risk.toFixed(1)}%</span>
               </div>
-              <h3 className="text-slate-300 text-sm font-medium mb-2">Failure Risk</h3>
+              <div className="flex items-center justify-between mb-2">
+                <h3 className="text-slate-300 text-sm font-medium">Failure Risk</h3>
+                {metrics.failure_risk > 70 && <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse heartbeat"></div>}
+              </div>
               <div className="w-full bg-slate-700 rounded-full h-2 overflow-hidden">
                 <div
                   className={`h-full bg-gradient-to-r ${getRiskColor(metrics.failure_risk)} transition-all duration-500 ease-out`}
