@@ -8,7 +8,7 @@ export async function fetchMetrics(): Promise<SystemMetrics> {
     throw new Error('Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. Create a .env file with both values.');
   }
 
-  const apiUrl = `${SUPABASE_URL}/functions/v1/chronos-metrics?_t=${Date.now()}`;
+  const apiUrlWithTimestamp = `${SUPABASE_URL}/functions/v1/chronos-metrics?_t=${Date.now()}`;
   
   const apiUrl = `${SUPABASE_URL}/functions/v1/chronos-metrics`;
 
