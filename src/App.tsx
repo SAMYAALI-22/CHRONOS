@@ -6,6 +6,15 @@ import Footer from './components/Footer';
 import { fetchMetrics } from './services/api';
 import { SystemMetrics } from './types';
 
+const FALLBACK_METRICS: SystemMetrics = {
+  cpu: 17.3,
+  memory: 42.4,
+  failure_risk: 0,
+  system_mood: 'CALM',
+  reason: 'System operating normally',
+  timestamp: Date.now(),
+};
+
 function App() {
   const [metrics, setMetrics] = useState<SystemMetrics | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -17,7 +26,8 @@ function App() {
         setMetrics(data);
         setError(null);
       } catch (err) {
-        setError('Failed to fetch metrics');
+        setMetrics((prev) => prev ?? { ...FALLBACK_METRICS, timestamp: Date.now() });
+        setError(err instanceof Error ? err.message : 'Failed to fetch metrics');
         console.error(err);
       }
     };
