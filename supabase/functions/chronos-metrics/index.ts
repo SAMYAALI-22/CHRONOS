@@ -9,6 +9,8 @@ const corsHeaders = {
 interface MetricHistory {
   cpu_percent: number;
   memory_percent: number;
+  traffic: number;
+  load: number;
   timestamp: number;
 }
 
@@ -21,16 +23,22 @@ function generateRealisticMetrics() {
 
   const baseCPU = 20 + Math.sin(now / 60000) * 10;
   const baseMemory = 40 + Math.sin(now / 120000) * 15;
+  const baseTraffic = 500 + Math.sin(now / 40000) * 300;
+  const baseLoad = 2 + Math.sin(now / 80000) * 1.5;
 
   const peakHourMultiplier = (timeOfDay >= 9 && timeOfDay <= 17) ? 1.3 : 0.8;
 
   const cpuSpike = Math.random() > 0.85 ? Math.random() * 30 : 0;
   const memoryGrowth = Math.random() > 0.9 ? Math.random() * 20 : 0;
+  const trafficSpike = Math.random() > 0.8 ? Math.random() * 400 : 0;
+  const loadSpike = Math.random() > 0.88 ? Math.random() * 2 : 0;
 
   const cpu = Math.min(95, Math.max(5, baseCPU * peakHourMultiplier + cpuSpike + (Math.random() * 10 - 5)));
   const memory = Math.min(95, Math.max(10, baseMemory * peakHourMultiplier + memoryGrowth + (Math.random() * 8 - 4)));
+  const traffic = Math.max(100, baseTraffic * peakHourMultiplier + trafficSpike + (Math.random() * 100 - 50));
+  const load = Math.max(0.5, baseLoad * peakHourMultiplier + loadSpike + (Math.random() * 0.5 - 0.25));
 
-  return { cpu, memory };
+  return { cpu, memory, traffic, load };
 }
 
 function calculateTrend(values: number[]): number {
@@ -49,7 +57,7 @@ function calculateTrend(values: number[]): number {
   return slope;
 }
 
-function calculateFailureRisk(cpu: number, memory: number, history: MetricHistory[]): { risk: number; reason: string } {
+function calculateFailureRisk(cpu: number, memory: number, traffic: number, load: number, history: MetricHistory[]): { risk: number; reason: string } {
   let risk = 0;
   const reasons: string[] = [];
 
@@ -69,12 +77,30 @@ function calculateFailureRisk(cpu: number, memory: number, history: MetricHistor
     reasons.push("High memory consumption");
   }
 
+  if (traffic > 1000) {
+    risk += 18;
+    reasons.push("High traffic spike detected");
+  } else if (traffic > 800) {
+    risk += 8;
+    reasons.push("Elevated traffic levels");
+  }
+
+  if (load > 4) {
+    risk += 20;
+    reasons.push("Critical system load");
+  } else if (load > 3) {
+    risk += 10;
+    reasons.push("High system load");
+  }
+
   if (history.length >= 10) {
     const recentCPU = history.slice(-10).map(h => h.cpu_percent);
     const recentMemory = history.slice(-10).map(h => h.memory_percent);
+    const recentTraffic = history.slice(-10).map(h => h.traffic);
 
     const cpuTrend = calculateTrend(recentCPU);
     const memoryTrend = calculateTrend(recentMemory);
+    const trafficTrend = calculateTrend(recentTraffic);
 
     if (cpuTrend > 2) {
       risk += 20;
@@ -90,6 +116,11 @@ function calculateFailureRisk(cpu: number, memory: number, history: MetricHistor
     } else if (memoryTrend > 0.8) {
       risk += 12;
       reasons.push("Growing memory usage");
+    }
+
+    if (trafficTrend > 50) {
+      risk += 15;
+      reasons.push("Rapidly increasing traffic");
     }
   }
 
@@ -129,12 +160,14 @@ Deno.serve(async (req: Request) => {
     const supabaseKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
     const supabase = createClient(supabaseUrl, supabaseKey);
 
-    const { cpu, memory } = generateRealisticMetrics();
+    const { cpu, memory, traffic, load } = generateRealisticMetrics();
 
     const now = Date.now();
     metricHistory.push({
       cpu_percent: cpu,
       memory_percent: memory,
+      traffic: traffic,
+      load: load,
       timestamp: now
     });
 
@@ -142,7 +175,7 @@ Deno.serve(async (req: Request) => {
       metricHistory = metricHistory.slice(-MAX_HISTORY);
     }
 
-    const { risk, reason } = calculateFailureRisk(cpu, memory, metricHistory);
+    const { risk, reason } = calculateFailureRisk(cpu, memory, traffic, load, metricHistory);
     const systemMood = determineSystemMood(risk);
 
     await supabase.from("system_metrics").insert({
@@ -157,6 +190,8 @@ Deno.serve(async (req: Request) => {
     const response = {
       cpu: Math.round(cpu * 10) / 10,
       memory: Math.round(memory * 10) / 10,
+      traffic: Math.round(traffic * 10) / 10,
+      load: Math.round(load * 100) / 100,
       failure_risk: Math.round(risk * 10) / 10,
       system_mood: systemMood,
       reason: reason,
