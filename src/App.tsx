@@ -26,7 +26,7 @@ function App() {
         setMetrics(data);
         setError(null);
       } catch (err) {
-        setMetrics((prev) => prev ?? { ...FALLBACK_METRICS, timestamp: Date.now() });
+        // Keep showing the last successful sample if available.
         setError(err instanceof Error ? err.message : 'Failed to fetch metrics');
         console.error(err);
       }
@@ -47,7 +47,9 @@ function App() {
 
       {error && (
         <div className="fixed bottom-4 right-4 bg-red-900/90 border border-red-500 text-red-200 px-6 py-3 rounded-lg shadow-xl">
-          {error}
+          {metrics
+            ? `Live feed interrupted. Showing last real sample. ${error}`
+            : error}
         </div>
       )}
     </div>
