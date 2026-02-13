@@ -48,4 +48,45 @@
   .delay-700 {
     animation-delay: 700ms;
   }
+
+  .heartbeat {
+    animation: heartbeat 1.5s ease-in-out infinite;
+  }
+
+  @keyframes heartbeat {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+    }
+    50% {
+      box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
+    }
+  }
+
+  .pulse-glow {
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% {
+      opacity: 0.5;
+      filter: drop-shadow(0 0 5px currentColor);
+    }
+    50% {
+      opacity: 1;
+      filter: drop-shadow(0 0 20px currentColor);
+    }
+  }
+
+  .status-indicator {
+    animation: statusPulse 1s ease-in-out infinite;
+  }
+
+  @keyframes statusPulse {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
 }
