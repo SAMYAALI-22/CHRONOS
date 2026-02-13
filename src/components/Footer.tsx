@@ -42,7 +42,7 @@ export default function Footer() {
                   <Mail className="w-5 h-5" />
                 </a>
               </div>
-
+            </div>
             <div className="bg-slate-900 rounded-xl p-6 border border-slate-800 hover:border-amber-500 transition-all duration-300">
               <h5 className="text-xl font-bold text-white mb-2">Sanchay Jain</h5>
               <p className="text-slate-400 text-sm mb-4">Co-Founder & Cloud Architect</p>
