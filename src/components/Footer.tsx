@@ -25,11 +25,13 @@ export default function Footer() {
                   <Mail className="w-5 h-5" />
                 </a>
               </div>
-      
+            </div>
+          </div>
 
-              <div className="bg-slate-900 rounded-xl p-6 border border-slate-800 hover:border-amber-500 transition-all duration-300">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-3xl mx-auto">
+            <div className="bg-slate-900 rounded-xl p-6 border border-slate-800 hover:border-amber-500 transition-all duration-300">
               <h5 className="text-xl font-bold text-white mb-2">Ashish Aryan</h5>
-              <p className="text-slate-400 text-sm mb-4">Managing Director</p>
+              <p className="text-slate-400 text-sm mb-4">Managing Directoor</p>
               <div className="flex gap-4 justify-center">
                 <a href="https://github.com/SAMYAALI-22" className="text-slate-400 hover:text-amber-400 transition-colors">
                   <Github className="w-5 h-5" />
@@ -37,12 +39,11 @@ export default function Footer() {
                 <a href="https://www.linkedin.com/in/samyaali22/" className="text-slate-400 hover:text-amber-400 transition-colors">
                   <Linkedin className="w-5 h-5" />
                 </a>
-                <a href="mailto:samyaali648@gmail.com" className="text-slate-400 hover:text-amber-400 transition-colors">
+                <a href="samyaali648@gmail.com" className="text-slate-400 hover:text-amber-400 transition-colors">
                   <Mail className="w-5 h-5" />
                 </a>
               </div>
             </div>
-          </div>
         </div>
 
         <div className="text-center text-slate-500 text-sm">
